@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - './training_pipeline'
 
 jobs:
   build-deploy-run-pipeline:
@@ -44,10 +46,10 @@ jobs:
     # Deploy new version to Cloud Run job
     - name: Deploy to Cloud Run Job
       run: |
-        gcloud run jobs deploy xgb-pipeline \
+        gcloud run jobs deploy xgb-pipeline --region us-central1\
           --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/xgb-pipeline 
 
     # Trigger the cloud run job
     - name: Execute the Job
       run: |
-        gcloud run jobs execute xgb-pipeline
+        gcloud run jobs execute xgb-pipeline --region us-central1

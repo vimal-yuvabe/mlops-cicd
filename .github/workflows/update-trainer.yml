@@ -51,3 +51,8 @@ jobs:
         DIST_FILE=$(ls dist/*.tar.gz)
         gsutil cp $DIST_FILE gs://tymestack-artifacts/python-application/$(basename $DIST_FILE)
     
+    # Trigger the CR Pipeline for New training
+    - name: New Training & Deployment
+      run: |
+        gcloud run jobs execute crjob-test --region us-central1
+    

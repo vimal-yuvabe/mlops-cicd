@@ -1,0 +1,8 @@
+kfp
+google-cloud-aiplatform
+pandas
+scikit-learn
+xgboost
+numpy
+google-cloud-storage
+requests

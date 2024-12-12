@@ -1,0 +1,53 @@
+name: Build, Deploy and Run a new Training MLops Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy-run-pipeline:
+    name: Build, Deploy and Run a new Training MLops Pipeline
+    runs-on: ubuntu-latest
+    defaults:
+        run:
+            working-directory: ./training_pipeline
+
+    steps:
+    # Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    # Log in to GCP
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+    # Configure Google Cloud CLI
+    - name: Set up gcloud CLI
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+    # Build and push Docker image
+    - name: Build and push Docker image
+      run: |
+        gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/xgb-pipeline
+
+    # Deploy new version to Cloud Run job
+    - name: Deploy to Cloud Run Job
+      run: |
+        gcloud run jobs deploy xgb-pipeline \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/xgb-pipeline 
+
+    # Trigger the cloud run job
+    - name: Execute the Job
+      run: |
+        gcloud run jobs execute xgb-pipeline

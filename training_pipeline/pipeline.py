@@ -14,4 +14,5 @@ def xgboost_model_training():
     
 
 if __name__ == "__main__":
+    # Compile the pipeline
     xgboost_model_training()

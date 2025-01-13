@@ -21,7 +21,7 @@ def fetch_data():
     
     train_df = pd.read_csv("https://storage.googleapis.com/tymestack-artifacts/dataset/boston_housing_train.csv")
     test_df = pd.read_csv("https://storage.googleapis.com/tymestack-artifacts/dataset/boston_housing_test.csv")
-
+    train_df = train_df[:200]
     # data preprocessing for training data
     y_train = train_df['medv'].values
     train_df.drop(columns=['medv'],inplace=True)

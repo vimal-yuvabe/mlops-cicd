@@ -54,5 +54,5 @@ jobs:
     # Trigger the CR Pipeline for New training
     - name: New Training & Deployment
       run: |
-        gcloud run jobs execute crjob-test --region us-central1
+        gcloud run jobs execute xgb-pipeline --region us-central1
     

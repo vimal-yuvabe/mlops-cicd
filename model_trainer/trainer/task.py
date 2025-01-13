@@ -83,3 +83,5 @@ logging.info("Saving metrics to {}/metrics.json". format(args.model_dir))
 gcs_metrics_path = os.path.join(args.model_dir, 'metrics.json')
 with open(gcs_metrics_path, "w") as f:
     f.write(f"{'mean_squared_error: {mse}'}")
+
+# dummy to trigger the cicd
